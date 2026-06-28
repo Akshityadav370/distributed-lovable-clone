@@ -1,5 +1,6 @@
 package com.spring_learn.distributed_lovable_clone.workspace_service.service.impl;
 
+import com.spring_learn.distributed_lovable_clone.common_lib.dto.FileTreeDto;
 import com.spring_learn.distributed_lovable_clone.common_lib.error.ResourceNotFoundException;
 import com.spring_learn.distributed_lovable_clone.workspace_service.dto.project.FileContentResponse;
 import com.spring_learn.distributed_lovable_clone.workspace_service.dto.project.FileNode;
@@ -42,14 +43,14 @@ public class ProjectFileServiceImpl implements ProjectFileService {
 
 
     @Override
-    public FileTreeResponse getFileTree(Long projectId) {
+    public FileTreeDto getFileTree(Long projectId) {
         List<ProjectFile> projectFileList = projectFileRepository.findByProjectId(projectId);
         List<FileNode> projectFileNodes = projectFileMapper.toListOfFileNode(projectFileList);
-        return new FileTreeResponse(projectFileNodes);
+        return new FileTreeDto(projectFileNodes);
     }
 
     @Override
-    public FileContentResponse getFileContent(Long projectId, String path) {
+    public String getFileContent(Long projectId, String path) {
         String objectName = projectId + "/" + path;
         try (
                 InputStream is = minioClient.getObject(
@@ -58,8 +59,7 @@ public class ProjectFileServiceImpl implements ProjectFileService {
                                 .object(objectName)
                                 .build())) {
 
-            String content = new String(is.readAllBytes(), StandardCharsets.UTF_8);
-            return new FileContentResponse(path, content);
+            return new String(is.readAllBytes(), StandardCharsets.UTF_8);
         } catch (Exception e) {
             log.error("Failed to read file: {}/{}", projectId, path, e);
             throw new RuntimeException("Failed to read file content", e);

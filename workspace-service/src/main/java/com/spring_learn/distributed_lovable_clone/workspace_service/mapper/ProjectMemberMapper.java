@@ -9,8 +9,5 @@ import org.mapstruct.Mapping;
 public interface ProjectMemberMapper {
 
     @Mapping(target = "userId", source = "id.userId")
-    @Mapping(target = "username", ignore = true)
-    @Mapping(target = "name", ignore = true)
-    @Mapping(target = "role", source = "projectRole")
     MemberResponse toProjectMemberResponseFromMember(ProjectMember projectMember);
 }

@@ -2,6 +2,7 @@ package com.spring_learn.distributed_lovable_clone.workspace_service.service.imp
 
 
 import com.spring_learn.distributed_lovable_clone.common_lib.dto.PlanDto;
+import com.spring_learn.distributed_lovable_clone.common_lib.enums.ProjectPermission;
 import com.spring_learn.distributed_lovable_clone.common_lib.enums.ProjectRole;
 import com.spring_learn.distributed_lovable_clone.common_lib.error.BadRequestException;
 import com.spring_learn.distributed_lovable_clone.common_lib.error.ResourceNotFoundException;
@@ -16,6 +17,7 @@ import com.spring_learn.distributed_lovable_clone.workspace_service.entity.Proje
 import com.spring_learn.distributed_lovable_clone.workspace_service.mapper.ProjectMapper;
 import com.spring_learn.distributed_lovable_clone.workspace_service.repository.ProjectMemberRepository;
 import com.spring_learn.distributed_lovable_clone.workspace_service.repository.ProjectRepository;
+import com.spring_learn.distributed_lovable_clone.workspace_service.security.SecurityExpressions;
 import com.spring_learn.distributed_lovable_clone.workspace_service.service.ProjectService;
 import com.spring_learn.distributed_lovable_clone.workspace_service.service.ProjectTemplateService;
 import jakarta.transaction.Transactional;
@@ -40,6 +42,7 @@ public class ProjectServiceImpl implements ProjectService {
     AuthUtil authUtil;
     ProjectTemplateService projectTemplateService;
     AccountClient accountClient;
+    SecurityExpressions securityExpressions;
 
     @Override
     public ProjectResponse createProject(ProjectRequest request) {
@@ -114,6 +117,10 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     ///  INTERNAL FUNCTIONS
+    @Override
+    public boolean hasPermission(Long projectId, ProjectPermission permission) {
+        return securityExpressions.hasPermission(projectId, permission);
+    }
 
     public Project getAccessibleProjectById(Long projectId, Long userId) {
         return projectRepository.findAccessibleProjectById(projectId, userId)

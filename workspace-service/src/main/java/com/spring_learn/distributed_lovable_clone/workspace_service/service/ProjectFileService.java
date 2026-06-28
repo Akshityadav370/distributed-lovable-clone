@@ -1,13 +1,12 @@
 package com.spring_learn.distributed_lovable_clone.workspace_service.service;
 
 
-import com.spring_learn.distributed_lovable_clone.workspace_service.dto.project.FileContentResponse;
-import com.spring_learn.distributed_lovable_clone.workspace_service.dto.project.FileTreeResponse;
+import com.spring_learn.distributed_lovable_clone.common_lib.dto.FileTreeDto;
 
 public interface ProjectFileService {
-    FileTreeResponse getFileTree(Long projectId);
+    FileTreeDto getFileTree(Long projectId);
 
-    FileContentResponse getFileContent(Long projectId, String path);
+    String getFileContent(Long projectId, String path);
 
     void saveFile(Long projectId, String filePath, String fileContent);
 }
