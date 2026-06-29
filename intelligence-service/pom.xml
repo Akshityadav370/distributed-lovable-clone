@@ -11,7 +11,7 @@
 	<groupId>com.spring-learn.distributed-lovable-clone</groupId>
 	<artifactId>intelligence-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name/>
+    <name>intelligence-service</name>
 	<description/>
 	<url/>
 	<licenses>
@@ -138,6 +138,27 @@
 					</excludes>
 				</configuration>
 			</plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.4.4</version>
+                <configuration>
+                    <to>
+                        <image>docker.io/akshityadav/lovable-clone-${project.name}:${project.version}</image>
+                        <tags>
+                            <tag>latest</tag>
+                        </tags>
+                    </to>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
