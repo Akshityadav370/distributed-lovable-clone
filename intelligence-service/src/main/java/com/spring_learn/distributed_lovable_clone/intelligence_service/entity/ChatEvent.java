@@ -1,5 +1,6 @@
 package com.spring_learn.distributed_lovable_clone.intelligence_service.entity;
 
+import com.spring_learn.distributed_lovable_clone.common_lib.enums.ChatEventStatus;
 import com.spring_learn.distributed_lovable_clone.common_lib.enums.ChatEventType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -38,4 +39,9 @@ public class ChatEvent {
     @Column(columnDefinition = "text")
     String metadata;
 
+    String sagaId;
+
+    @Enumerated(EnumType.STRING)
+//    @Column(nullable = false)
+    ChatEventStatus status;
 }

@@ -1,10 +1,10 @@
-package com.codingshuttle.distributed_lovable.api_gateway.filter;
+package com.spring_learn.distributed_lovable_clone.api_gateway.filter;
 
-import com.codingshuttle.distributed_lovable.api_gateway.config.SecurityProperties;
-import com.codingshuttle.distributed_lovable.api_gateway.error.ApiError;
-import com.codingshuttle.distributed_lovable.api_gateway.service.JwtGatewayService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.spring_learn.distributed_lovable_clone.api_gateway.config.SecurityProperties;
+import com.spring_learn.distributed_lovable_clone.api_gateway.error.ApiError;
+import com.spring_learn.distributed_lovable_clone.api_gateway.service.JwtGatewayService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;

@@ -1,4 +1,4 @@
-package com.codingshuttle.distributed_lovable.api_gateway.error;
+package com.spring_learn.distributed_lovable_clone.api_gateway.error;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.http.HttpStatus;

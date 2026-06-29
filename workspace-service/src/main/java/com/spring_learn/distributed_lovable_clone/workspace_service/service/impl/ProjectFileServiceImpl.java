@@ -3,7 +3,7 @@ package com.spring_learn.distributed_lovable_clone.workspace_service.service.imp
 import com.spring_learn.distributed_lovable_clone.common_lib.dto.FileTreeDto;
 import com.spring_learn.distributed_lovable_clone.common_lib.error.ResourceNotFoundException;
 import com.spring_learn.distributed_lovable_clone.workspace_service.dto.project.FileContentResponse;
-import com.spring_learn.distributed_lovable_clone.workspace_service.dto.project.FileNode;
+import com.spring_learn.distributed_lovable_clone.common_lib.dto.FileNode;
 import com.spring_learn.distributed_lovable_clone.workspace_service.dto.project.FileTreeResponse;
 import com.spring_learn.distributed_lovable_clone.workspace_service.entity.Project;
 import com.spring_learn.distributed_lovable_clone.workspace_service.entity.ProjectFile;
@@ -14,6 +14,7 @@ import com.spring_learn.distributed_lovable_clone.workspace_service.service.Proj
 import io.minio.GetObjectArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -67,6 +68,7 @@ public class ProjectFileServiceImpl implements ProjectFileService {
     }
 
     @Override
+    @Transactional
     public void saveFile(Long projectId, String path, String content) {
         Project project = projectRepository.findById(projectId).orElseThrow(
                 () -> new ResourceNotFoundException("Project", projectId.toString())

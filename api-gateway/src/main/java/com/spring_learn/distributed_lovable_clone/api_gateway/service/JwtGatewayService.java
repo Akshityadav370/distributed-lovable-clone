@@ -1,4 +1,4 @@
-package com.codingshuttle.distributed_lovable.api_gateway.service;
+package com.spring_learn.distributed_lovable_clone.api_gateway.service;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

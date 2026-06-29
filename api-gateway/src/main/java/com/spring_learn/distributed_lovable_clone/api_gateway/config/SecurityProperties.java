@@ -1,4 +1,4 @@
-package com.codingshuttle.distributed_lovable.api_gateway.config;
+package com.spring_learn.distributed_lovable_clone.api_gateway.config;
 
 import lombok.Getter;
 import lombok.Setter;
