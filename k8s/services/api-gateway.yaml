@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: akshityadav/lovable-clone-api-gateway-service:latest
+          image: akshityadav/lovable-clone-api-gateway:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
