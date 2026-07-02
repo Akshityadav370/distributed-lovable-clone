@@ -1,8 +1,10 @@
 package com.spring_learn.distributed_lovable_clone.workspace_service.controller;
 
+import com.spring_learn.distributed_lovable_clone.workspace_service.dto.project.DeployResponse;
 import com.spring_learn.distributed_lovable_clone.workspace_service.dto.project.ProjectRequest;
 import com.spring_learn.distributed_lovable_clone.workspace_service.dto.project.ProjectResponse;
 import com.spring_learn.distributed_lovable_clone.workspace_service.dto.project.ProjectSummaryResponse;
+import com.spring_learn.distributed_lovable_clone.workspace_service.service.DeploymentService;
 import com.spring_learn.distributed_lovable_clone.workspace_service.service.ProjectService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +20,7 @@ import java.util.List;
 public class ProjectController {
 
     private final ProjectService projectService;
-//    private final DeploymentService deploymentService;
+    private final DeploymentService deploymentService;
 
     @GetMapping
     public ResponseEntity<List<ProjectSummaryResponse>> getMyProjects() {
@@ -46,10 +48,10 @@ public class ProjectController {
         return ResponseEntity.noContent().build();
     }
 
-//    @PostMapping("/{id}/deploy")
-//    public ResponseEntity<DeployResponse> deployProject(@PathVariable Long id) {
-//        return ResponseEntity.ok(deploymentService.deploy(id));
-//    } TODO: DeploymentService
+    @PostMapping("/{id}/deploy")
+    public ResponseEntity<DeployResponse> deployProject(@PathVariable Long id) {
+        return ResponseEntity.ok(deploymentService.deploy(id));
+    }
 
 }
 
