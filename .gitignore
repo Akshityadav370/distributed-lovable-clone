@@ -19,3 +19,15 @@ application-local.yaml
 ### OS ###
 .DS_Store
 Thumbs.db
+
+/node_modules
+/dist
+/build
+/.vscode
+/.idea
+.DS_Store
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
