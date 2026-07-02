@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: lovable-me-proxy
-          image: Akshityadav370/lovable-me-proxy:latest
+          image: akshityadav/lovable-me-proxy:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 80

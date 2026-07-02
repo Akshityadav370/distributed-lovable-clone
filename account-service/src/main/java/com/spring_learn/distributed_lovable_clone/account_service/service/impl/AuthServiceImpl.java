@@ -46,7 +46,8 @@ public class AuthServiceImpl implements AuthService {
                 user.getUsername(), null,  new ArrayList<>());
 
         String token = authUtil.generateAccessToken(jwtUserPrincipal);
-        return new AuthResponse(token, userMapper.toUserProfileResponse(jwtUserPrincipal));
+        String refreshToken = authUtil.generateRefreshToken(jwtUserPrincipal);
+        return new AuthResponse(token, refreshToken, userMapper.toUserProfileResponse(jwtUserPrincipal));
     }
 
     @Override
@@ -57,6 +58,22 @@ public class AuthServiceImpl implements AuthService {
 
         JwtUserPrincipal user = (JwtUserPrincipal) authentication.getPrincipal();
         String token = authUtil.generateAccessToken(user);
-        return new AuthResponse(token, userMapper.toUserProfileResponse(user));
+        String refreshToken = authUtil.generateRefreshToken(user);
+        return new AuthResponse(token, refreshToken, userMapper.toUserProfileResponse(user));
+    }
+
+    @Override
+    public AuthResponse refresh(String refreshToken) {
+        JwtUserPrincipal principal = authUtil.verifyRefreshToken(refreshToken);
+
+        User user = userRepository.findById(principal.userId())
+                .orElseThrow(() -> new BadRequestException("User no longer exists"));
+
+        JwtUserPrincipal freshPrincipal = new JwtUserPrincipal(user.getId(), user.getName(),
+                user.getUsername(), null, new ArrayList<>());
+
+        String newAccessToken = authUtil.generateAccessToken(freshPrincipal);
+        String newRefreshToken = authUtil.generateRefreshToken(freshPrincipal);
+        return new AuthResponse(newAccessToken, newRefreshToken, userMapper.toUserProfileResponse(freshPrincipal));
     }
 }

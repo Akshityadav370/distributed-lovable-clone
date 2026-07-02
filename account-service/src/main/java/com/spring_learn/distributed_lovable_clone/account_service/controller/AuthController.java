@@ -2,6 +2,7 @@ package com.spring_learn.distributed_lovable_clone.account_service.controller;
 
 import com.spring_learn.distributed_lovable_clone.account_service.dto.auth.AuthResponse;
 import com.spring_learn.distributed_lovable_clone.account_service.dto.auth.LoginRequest;
+import com.spring_learn.distributed_lovable_clone.account_service.dto.auth.RefreshTokenRequest;
 import com.spring_learn.distributed_lovable_clone.account_service.dto.auth.SignupRequest;
 import com.spring_learn.distributed_lovable_clone.account_service.service.AuthService;
 import lombok.AccessLevel;
@@ -30,6 +31,11 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<AuthResponse> refresh(@RequestBody RefreshTokenRequest request) {
+        return ResponseEntity.ok(authService.refresh(request.refreshToken()));
     }
 
 //    @GetMapping("/me")

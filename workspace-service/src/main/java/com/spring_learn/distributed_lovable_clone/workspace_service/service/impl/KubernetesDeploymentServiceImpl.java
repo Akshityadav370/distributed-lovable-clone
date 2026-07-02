@@ -13,6 +13,10 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -37,6 +41,8 @@ public class KubernetesDeploymentServiceImpl implements DeploymentService {
     private static final String PROJECT_LABEL = "project-id";
     private static final String IDLE = "idle";
     private static final String BUSY = "busy";
+    private static final int PREVIEW_PORT = 5173;
+    private static final Duration READINESS_TIMEOUT = Duration.ofSeconds(30);
 
     public DeployResponse deploy(Long projectId) {
         // Dynamically build the domain: project-123.app.domain.com
@@ -111,8 +117,33 @@ public class KubernetesDeploymentServiceImpl implements DeploymentService {
         String podIp = pod.getStatus().getPodIP();
         if (podIp == null) throw new RuntimeException("Pod is running but has no IP!");
 
-        redisTemplate.opsForValue().set("route:" + domain, podIp + ":5173", 6, TimeUnit.HOURS);
+        if (!waitForPortReady(podIp, PREVIEW_PORT, READINESS_TIMEOUT)) {
+            throw new RuntimeException("Preview server on pod " + pod.getMetadata().getName()
+                    + " did not become ready within " + READINESS_TIMEOUT.getSeconds() + "s");
+        }
+
+        redisTemplate.opsForValue().set("route:" + domain, podIp + ":" + PREVIEW_PORT, 6, TimeUnit.HOURS);
         log.info("Route Registered: {} -> {}", domain, podIp);
+    }
+
+    private boolean waitForPortReady(String podIp, int port, Duration timeout) {
+        long deadline = System.currentTimeMillis() + timeout.toMillis();
+
+        while (System.currentTimeMillis() < deadline) {
+            try (Socket socket = new Socket()) {
+                socket.connect(new InetSocketAddress(podIp, port), 1000);
+                return true;
+            } catch (IOException e) {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                    return false;
+                }
+            }
+        }
+
+        return false;
     }
 
     private void execCommand(String podName, String container, String... command) {

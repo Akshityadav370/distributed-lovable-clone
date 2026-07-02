@@ -43,7 +43,7 @@ spec:
                 port:
                   number: 80
 
-    - host: "*.previews.lovable.iakshit.space"
+    - host: "*.lovable-previews.iakshit.space"
       http:
         paths:
           - path: /
