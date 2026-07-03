@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --ink: 23 23 58;
+  --canvas: 252 251 248;
+  --page: 233 231 225;
+  --border: 212 212 212;
+  --border-subtle: 236 234 227;
+  --muted-fg: 107 107 120;
+  --faint-fg: 168 166 160;
+  --chat-bubble: 249 244 236;
+  --action-card: 249 247 243;
+  --code-surface: 243 240 234;
+  --accent: 0 86 248;
+  --accent-border: 0 67 193;
+  --accent-active: 37 87 213;
+  --success: 31 138 91;
+  --avatar: 105 121 248;
+  --disabled-fill: 180 176 168;
+}
+
+.dark {
+  --ink: 237 237 240;
+  --canvas: 18 18 20;
+  --page: 11 11 13;
+  --border: 51 51 56;
+  --border-subtle: 42 42 48;
+  --muted-fg: 154 154 164;
+  --faint-fg: 122 122 130;
+  --chat-bubble: 26 26 30;
+  --action-card: 24 24 28;
+  --code-surface: 13 13 15;
+  --accent: 0 86 248;
+  --accent-border: 0 67 193;
+  --accent-active: 37 87 213;
+  --success: 79 209 153;
+  --avatar: 105 121 248;
+  --disabled-fill: 69 69 76;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: rgb(var(--page));
+  font-family: 'Inter', system-ui, sans-serif;
+  color: rgb(var(--ink));
+}
+
+.brand-mark {
+  background: linear-gradient(135deg, #ff8e63 5%, #ff7eb0 55%, #4b73ff 95%);
+}
+
+.brand-text-gradient {
+  background: linear-gradient(100deg, #ff8e63, #ff7eb0 50%, #4b73ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
