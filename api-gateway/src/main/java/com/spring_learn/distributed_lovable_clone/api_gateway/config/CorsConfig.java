@@ -16,7 +16,11 @@ public class CorsConfig {
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration corsConfig = new CorsConfiguration();
         corsConfig.setAllowedOrigins(Arrays.asList(
-                "http://iakshit.space"
+                "http://iakshit.space",
+                "http://lovable.iakshit.space",
+                "https://lovable.iakshit.space",
+                "http://www.lovable.iakshit.space",
+                "https://www.lovable.iakshit.space"
         ));
         corsConfig.setMaxAge(3600L);
         corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
