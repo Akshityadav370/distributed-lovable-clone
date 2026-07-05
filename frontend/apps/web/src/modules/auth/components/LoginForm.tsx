@@ -37,16 +37,38 @@ export function LoginForm() {
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
       <div className="flex flex-col gap-1.5">
         <Label htmlFor="username">Email</Label>
-        <Input id="username" type="email" placeholder="you@example.com" {...register('username')} />
-        {errors.username && <p className="text-[12px] text-red-500">{errors.username.message}</p>}
+        <Input
+          id="username"
+          type="email"
+          placeholder="akshit@gmail.com"
+          {...register('username')}
+        />
+        {errors.username && (
+          <p className="text-[12px] text-red-500">{errors.username.message}</p>
+        )}
       </div>
       <div className="flex flex-col gap-1.5">
         <Label htmlFor="password">Password</Label>
-        <Input id="password" type="password" placeholder="••••••••" {...register('password')} />
-        {errors.password && <p className="text-[12px] text-red-500">{errors.password.message}</p>}
+        <Input
+          id="password"
+          type="password"
+          placeholder="password"
+          {...register('password')}
+        />
+        {errors.password && (
+          <p className="text-[12px] text-red-500">{errors.password.message}</p>
+        )}
       </div>
-      {error && <p className="text-[12px] text-red-500">Invalid email or password.</p>}
-      <Button type="submit" variant="accent" size="lg" disabled={isLoading} className="mt-2 w-full">
+      {error && (
+        <p className="text-[12px] text-red-500">Invalid email or password.</p>
+      )}
+      <Button
+        type="submit"
+        variant="accent"
+        size="lg"
+        disabled={isLoading}
+        className="mt-2 w-full"
+      >
         {isLoading ? 'Logging in…' : 'Log in'}
       </Button>
     </form>
