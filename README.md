@@ -10,38 +10,76 @@ You describe an app in chat, an LLM generates the code, and the project runs liv
 
 ```mermaid
 flowchart TB
-    U([Browser]) --> ING["NGINX Ingress"]
+    U(["🧑‍💻 Browser"]) --> ING["🚦 NGINX Ingress"]
 
-    ING -->|"lovable.iakshit.space"| FE["Frontend<br/>React + nginx"]
-    ING -->|"api.lovable.iakshit.space"| GW["API Gateway :8080"]
-    ING -->|"*.lovable-previews.iakshit.space"| PX["Preview Proxy<br/>Node.js"]
+    ING -->|"lovable.iakshit.space"| FE["⚛️ Frontend<br/>React + nginx"]
+    ING -->|"api.lovable.iakshit.space"| GW["🚪 API Gateway :8080"]
+    ING -->|"*.lovable-previews.iakshit.space"| PX["🔀 Preview Proxy<br/>Node.js"]
 
-    GW --> ACC["Account Service :9010<br/>auth · plans · billing"]
-    GW --> WS["Workspace Service :9020<br/>projects · files · previews"]
-    GW --> INT["Intelligence Service :9030<br/>AI chat · codegen"]
+    GW --> ACC["👤 Account Service :9010<br/>auth · plans · billing"]
+    GW --> WS["🗂️ Workspace Service :9020<br/>projects · files · previews"]
+    GW --> INT["🧠 Intelligence Service :9030<br/>AI chat · codegen"]
 
-    ACC --> STR(["Stripe"])
-    INT --> OAI(["OpenAI"])
+    ACC --> STR(["💳 Stripe"])
+    INT --> OAI(["🤖 OpenAI"])
 
-    ACC --> PG[("PostgreSQL")]
+    ACC --> PG[("🐘 PostgreSQL")]
     WS --> PG
     INT --> PG
 
-    INT ==>|"file-store saga"| KF[("Kafka")]
+    INT ==>|"file-store saga"| KF[("📨 Kafka")]
     KF ==> WS
 
-    WS --> MN[("MinIO")]
-    WS -->|"register route"| RD[("Redis")]
+    WS --> MN[("🪣 MinIO")]
+    WS -->|"register route"| RD[("⚡ Redis")]
     PX -.->|"resolve host"| RD
 
-    WS -->|"claim + exec"| POD["runner pod<br/>(lovable-previews ns)"]
+    WS -->|"claim + exec"| POD["🏃 runner pod<br/>(lovable-previews ns)"]
     MN -.->|"mc mirror --watch"| POD
     PX -->|"HTTP + WS"| POD
+
+    classDef edge fill:#ede7f6,stroke:#5e35b1,stroke-width:1.5px,color:#212121
+    classDef svc fill:#e3f2fd,stroke:#1e88e5,stroke-width:1.5px,color:#212121
+    classDef web fill:#e0f2f1,stroke:#00897b,stroke-width:1.5px,color:#212121
+    classDef store fill:#fff3e0,stroke:#fb8c00,stroke-width:1.5px,color:#212121
+    classDef ext fill:#f3e5f5,stroke:#8e24aa,stroke-width:1.5px,color:#212121
+    classDef pod fill:#fce4ec,stroke:#d81b60,stroke-width:1.5px,color:#212121
+
+    class U,ING edge
+    class GW,ACC,WS,INT svc
+    class FE,PX web
+    class PG,RD,KF,MN store
+    class STR,OAI ext
+    class POD pod
 ```
 
 Not shown to keep it readable: every Spring service pulls its config from `config-service` (:8888) at startup; Eureka (:8761) handles discovery in local dev, while in-cluster services resolve each other through Kubernetes DNS. The Feign calls between services (intelligence → workspace for files, intelligence/workspace → account for limits) are covered in the sections below.
 
 ## Tech stack
+
+![Java](https://img.shields.io/badge/Java_21-437291?logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?logo=springboot&logoColor=white)
+![Spring Cloud](https://img.shields.io/badge/Spring_Cloud-6DB33F?logo=spring&logoColor=white)
+![OpenAI](https://img.shields.io/badge/Spring_AI_·_OpenAI-412991?logo=openai&logoColor=white)
+![Stripe](https://img.shields.io/badge/Stripe-635BFF?logo=stripe&logoColor=white)
+
+![React](https://img.shields.io/badge/React_19-20232A?logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)
+![Nx](https://img.shields.io/badge/Nx-143055?logo=nx&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-06B6D4?logo=tailwindcss&logoColor=white)
+![Redux](https://img.shields.io/badge/Redux_Toolkit-764ABC?logo=redux&logoColor=white)
+
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-DC382D?logo=redis&logoColor=white)
+![Kafka](https://img.shields.io/badge/Apache_Kafka-231F20?logo=apachekafka&logoColor=white)
+![MinIO](https://img.shields.io/badge/MinIO-C72E49?logo=minio&logoColor=white)
+
+![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?logo=kubernetes&logoColor=white)
+![Google Cloud](https://img.shields.io/badge/GKE-4285F4?logo=googlecloud&logoColor=white)
+![NGINX](https://img.shields.io/badge/NGINX_Ingress-009639?logo=nginx&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker_Hub-2496ED?logo=docker&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?logo=githubactions&logoColor=white)
 
 - **Backend:** Java 21, Spring Boot 4.1, Spring Cloud 2025.1.2 (Config, Eureka, Gateway/WebFlux, OpenFeign)
 - **AI:** Spring AI 2.0 with OpenAI — streaming, tool calling, custom advisors
